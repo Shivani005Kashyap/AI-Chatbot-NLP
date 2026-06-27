@@ -1,28 +1,32 @@
 import { useState } from "react";
-import axios from "axios";
+import API from "./services/api";
+import "./styles/global.css";
+import "./styles/app.css";
+
+import ChatHeader from "./components/ChatHeader";
+import MessageList from "./components/MessageList";
+import ChatInput from "./components/ChatInput";
+
 
 function App() {
-  const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
     {
       sender: "bot",
-      text: "Hello! 👋 How can I help you today?",
+      text: "Hello 👋 I'm your AI assistant. Ask me anything!",
     },
   ]);
 
-  const sendMessage = async () => {
-    if (message.trim() === "") return;
-
+  const sendMessage = async (text) => {
     const userMessage = {
       sender: "user",
-      text: message,
+      text,
     };
 
     setMessages((prev) => [...prev, userMessage]);
 
     try {
-      const res = await axios.post("http://127.0.0.1:5000/chat", {
-        message: message,
+      const res = await API.post("/chat", {
+        message: text,
       });
 
       const botMessage = {
@@ -31,7 +35,7 @@ function App() {
       };
 
       setMessages((prev) => [...prev, botMessage]);
-    } catch (error) {
+    } catch {
       setMessages((prev) => [
         ...prev,
         {
@@ -40,114 +44,14 @@ function App() {
         },
       ]);
     }
-
-    setMessage("");
   };
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        background: "#f4f4f4",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          width: "420px",
-          height: "650px",
-          background: "white",
-          borderRadius: "15px",
-          display: "flex",
-          flexDirection: "column",
-          boxShadow: "0 0 20px rgba(0,0,0,.2)",
-        }}
-      >
-        <div
-          style={{
-            background: "#4F46E5",
-            color: "white",
-            padding: "18px",
-            textAlign: "center",
-            fontSize: "22px",
-            fontWeight: "bold",
-          }}
-        >
-          🤖 AI Chatbot
-        </div>
-
-        <div
-          style={{
-            flex: 1,
-            overflowY: "auto",
-            padding: "15px",
-          }}
-        >
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              style={{
-                textAlign: msg.sender === "user" ? "right" : "left",
-                marginBottom: "12px",
-              }}
-            >
-              <span
-                style={{
-                  display: "inline-block",
-                  padding: "10px 14px",
-                  borderRadius: "12px",
-                  background:
-                    msg.sender === "user" ? "#4F46E5" : "#E5E7EB",
-                  color: msg.sender === "user" ? "white" : "black",
-                  maxWidth: "80%",
-                }}
-              >
-                {msg.text}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            padding: "15px",
-            borderTop: "1px solid #ddd",
-          }}
-        >
-          <input
-            type="text"
-            value={message}
-            placeholder="Type a message..."
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") sendMessage();
-            }}
-            style={{
-              flex: 1,
-              padding: "12px",
-              borderRadius: "8px",
-              border: "1px solid #ccc",
-            }}
-          />
-
-          <button
-            onClick={sendMessage}
-            style={{
-              marginLeft: "10px",
-              padding: "12px 18px",
-              background: "#4F46E5",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-            }}
-          >
-            Send
-          </button>
-        </div>
+    <div className="app">
+      <div className="chat-container">
+        <ChatHeader />
+        <MessageList messages={messages} />
+        <ChatInput onSend={sendMessage} />
       </div>
     </div>
   );
