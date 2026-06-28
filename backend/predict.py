@@ -1,8 +1,5 @@
 import random
 import json
-import numpy as np
-import joblib
-import tensorflow as tf
 import re
 from nltk_utils import tokenize, bag_of_words
 
@@ -10,11 +7,13 @@ from nltk_utils import tokenize, bag_of_words
 with open("intents.json", "r", encoding="utf-8") as file:
     intents = json.load(file)
 
-model = tf.keras.models.load_model("chatbot_model.keras")
-words = joblib.load("words.pkl")
-tags = joblib.load("tags.pkl")
+# Temporarily disable ML model
+model = None
+words = []
+tags = []
 
 intent_map = {i["tag"]: i for i in intents["intents"]}
+
 
 def extract_name(text):
     match = re.search(r"i am (.+)|my name is (.+)", text, re.I)
@@ -22,17 +21,23 @@ def extract_name(text):
         return (match.group(1) or match.group(2)).strip()
     return None
 
+
 def get_response(sentence):
     try:
         sentence = sentence.lower()
 
         # ---------------- RULES ----------------
+
         name = extract_name(sentence)
         if name:
             return f"Hi {name}! Nice to meet you 👋"
 
         if "how are you" in sentence:
-            return random.choice(["I'm good 😊", "Doing great!"])
+            return random.choice([
+                "I'm good 😊",
+                "Doing great!",
+                "I'm doing well!"
+            ])
 
         if "your name" in sentence:
             return "I'm your AI chatbot 🤖"
@@ -41,27 +46,25 @@ def get_response(sentence):
             from datetime import datetime
             return datetime.now().strftime("%H:%M")
 
-        # ---------------- ML MODEL ----------------
-        sentence_words = tokenize(sentence)
-        X = bag_of_words(sentence_words, words)
-        X = np.array([X])
+        if "hello" in sentence or "hi" in sentence:
+            return random.choice([
+                "Hello! 👋",
+                "Hi there!",
+                "Hey! How can I help you?"
+            ])
 
-        prediction = model.predict(X, verbose=0)
-
-        index = np.argmax(prediction)
-        confidence = float(prediction[0][index])
-
-        if confidence > 0.5:
-            tag = tags[index]
-            return random.choice(intent_map[tag]["responses"])
+        if "bye" in sentence:
+            return "Goodbye! Have a great day! 😊"
 
         # ---------------- FALLBACK ----------------
+
         return random.choice([
-            "I’m not sure, can you explain?",
-            "Interesting 🤔 tell me more",
-            "I’m still learning..."
+            "I'm still learning. Can you explain differently?",
+            "Interesting 🤔 Tell me more!",
+            "Sorry, I don't know the answer to that yet.",
+            "Could you rephrase your question?"
         ])
 
     except Exception as e:
         print("ERROR:", e)
-        return "Bot error occurred"
+        return "Bot error occurred."
