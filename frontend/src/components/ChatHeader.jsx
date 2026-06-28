@@ -1,4 +1,4 @@
-import { FaRobot, FaTrash } from "react-icons/fa";
+import { FaRobot, FaTrash, FaUser } from "react-icons/fa";
 import "../styles/header.css";
 
 function ChatHeader({ onClear }) {
