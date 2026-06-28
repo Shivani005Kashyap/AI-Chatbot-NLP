@@ -63,15 +63,8 @@ AI-Chatbot/
 
 
  ⚙️ Installation & Setup
-
-### 1️⃣ Clone Repository
-```bash
-git clone https://github.com/your-username/ai-chatbot.git
-cd ai-chatbot
-
-
-
- 2️⃣ Backend Setup (Flask)
+ 
+ 1 Backend Setup (Flask)
 
 ```bash
 cd backend
@@ -87,7 +80,7 @@ http://127.0.0.1:5000
 
 
 
- 3️⃣ Frontend Setup (React)
+ 3️2 Frontend Setup (React)
 
 ```bash
 cd frontend
