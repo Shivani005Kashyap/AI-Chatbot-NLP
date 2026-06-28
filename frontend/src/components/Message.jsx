@@ -1,7 +1,7 @@
 import { FaRobot, FaUser } from "react-icons/fa";
 import "../styles/message.css";
 
-function Message({ sender, text }) {
+function Message({ sender, text, time }) {
   return (
     <div className={`message ${sender}`}>
       <div className="message-avatar">
@@ -11,6 +11,10 @@ function Message({ sender, text }) {
       <div className="message-content">
         <div className="message-text">
           {text}
+        </div>
+
+        <div className="message-time">
+          {time}
         </div>
       </div>
     </div>

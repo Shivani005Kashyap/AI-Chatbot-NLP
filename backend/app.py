@@ -1,29 +1,36 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os
 
 from predict import get_response
 
 app = Flask(__name__)
 CORS(app)
 
-
 @app.route("/")
 def home():
     return "AI Chatbot API is running!"
 
-
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    message = data.get("message", "")
+        if not data or "message" not in data:
+            return jsonify({"error": "Invalid request"}), 400
 
-    response = get_response(message)
+        message = data.get("message", "").strip()
 
-    return jsonify({
-        "response": response
-    })
+        if not message:
+            return jsonify({"response": "Please enter a message."})
+
+        response = get_response(message)
+
+        return jsonify({"response": response})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))

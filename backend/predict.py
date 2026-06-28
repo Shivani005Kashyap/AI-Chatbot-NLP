@@ -3,57 +3,65 @@ import json
 import numpy as np
 import joblib
 import tensorflow as tf
-
+import re
 from nltk_utils import tokenize, bag_of_words
 
 # Load intents
-with open("intents.json", "r") as file:
+with open("intents.json", "r", encoding="utf-8") as file:
     intents = json.load(file)
 
-# Load trained model
 model = tf.keras.models.load_model("chatbot_model.keras")
-
-# Load vocabulary and tags
 words = joblib.load("words.pkl")
 tags = joblib.load("tags.pkl")
 
+intent_map = {i["tag"]: i for i in intents["intents"]}
+
+def extract_name(text):
+    match = re.search(r"i am (.+)|my name is (.+)", text, re.I)
+    if match:
+        return (match.group(1) or match.group(2)).strip()
+    return None
 
 def get_response(sentence):
-    # Tokenize the input
-    sentence = tokenize(sentence)
+    try:
+        sentence = sentence.lower()
 
-    # Convert to Bag of Words
-    X = bag_of_words(sentence, words)
-    X = np.array([X])
+        # ---------------- RULES ----------------
+        name = extract_name(sentence)
+        if name:
+            return f"Hi {name}! Nice to meet you 👋"
 
-    # Predict intent
-    prediction = model.predict(X, verbose=0)
+        if "how are you" in sentence:
+            return random.choice(["I'm good 😊", "Doing great!"])
 
-    predicted_index = np.argmax(prediction)
-    confidence = prediction[0][predicted_index]
-    tag = tags[predicted_index]
+        if "your name" in sentence:
+            return "I'm your AI chatbot 🤖"
 
-    # Return a response if confidence is high enough
-    if confidence > 0.7:
-        for intent in intents["intents"]:
-            if intent["tag"] == tag:
-                return random.choice(intent["responses"])
+        if "time" in sentence:
+            from datetime import datetime
+            return datetime.now().strftime("%H:%M")
 
-    return "Sorry, I don't understand. Can you rephrase?"
+        # ---------------- ML MODEL ----------------
+        sentence_words = tokenize(sentence)
+        X = bag_of_words(sentence_words, words)
+        X = np.array([X])
 
+        prediction = model.predict(X, verbose=0)
 
-# This part runs ONLY when predict.py is executed directly
-if __name__ == "__main__":
-    print("🤖 AI Chatbot is ready!")
-    print("Type 'quit' to exit.\n")
+        index = np.argmax(prediction)
+        confidence = float(prediction[0][index])
 
-    while True:
-        message = input("You: ")
+        if confidence > 0.5:
+            tag = tags[index]
+            return random.choice(intent_map[tag]["responses"])
 
-        if message.lower() == "quit":
-            print("Bot: Goodbye!")
-            break
+        # ---------------- FALLBACK ----------------
+        return random.choice([
+            "I’m not sure, can you explain?",
+            "Interesting 🤔 tell me more",
+            "I’m still learning..."
+        ])
 
-        response = get_response(message)
-        print("Bot:", response)
-        
+    except Exception as e:
+        print("ERROR:", e)
+        return "Bot error occurred"

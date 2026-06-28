@@ -5,26 +5,30 @@ import "../styles/input.css";
 function ChatInput({ onSend }) {
   const [message, setMessage] = useState("");
 
-  const send = () => {
+  const handleSend = () => {
     if (!message.trim()) return;
 
     onSend(message);
     setMessage("");
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  };
+
   return (
     <div className="chat-input">
       <input
         type="text"
-        placeholder="Ask me anything..."
+        placeholder="Type your message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") send();
-        }}
+        onKeyDown={handleKeyDown}
       />
 
-      <button onClick={send}>
+      <button onClick={handleSend}>
         <FaPaperPlane />
       </button>
     </div>

@@ -3,55 +3,160 @@
     {
       "tag": "greeting",
       "patterns": [
-        "Hi",
-        "Hello",
-        "Hey",
-        "Good Morning",
-        "Good Evening"
+        "hi", "hello", "hey", "good morning", "good evening", "hii", "yo"
       ],
       "responses": [
-        "Hello! How can I help you today?",
-        "Hi there! What can I do for you?",
-        "Hey! Nice to meet you."
+        "Hello 👋 How can I help you today?",
+        "Hi there! Ask me anything 🙂",
+        "Hey! I'm here to assist you."
       ]
     },
+
     {
-      "tag": "goodbye",
+      "tag": "about_bot",
       "patterns": [
-        "Bye",
-        "Goodbye",
-        "See you",
-        "See you later"
+        "who are you",
+        "what are you",
+        "tell me about yourself",
+        "what can you do",
+        "your purpose"
       ],
       "responses": [
-        "Goodbye! Have a great day.",
-        "See you soon!",
-        "Take care!"
+        "I'm an AI chatbot built using Python, TensorFlow and Flask.",
+        "I can answer questions, help with coding, and guide you in projects 🙂",
+        "I'm a learning AI assistant designed to simulate conversation."
       ]
     },
+
     {
-      "tag": "thanks",
+      "tag": "ai_full_form",
       "patterns": [
-        "Thanks",
-        "Thank you",
-        "Thanks a lot",
-        "I appreciate it"
+        "ai full form",
+        "what is ai full form",
+        "full form of ai",
+        "meaning of ai"
       ],
       "responses": [
-        "You're welcome!",
-        "Happy to help!",
-        "Anytime!"
+        "AI stands for Artificial Intelligence 🤖",
+        "Full form of AI is Artificial Intelligence.",
+        "AI means Artificial Intelligence, where machines simulate human thinking."
       ]
     },
+
     {
       "tag": "about_ai",
       "patterns": [
-        "What is AI?",
-        "Explain Artificial Intelligence",
-        "Tell me about AI"
+        "what is ai",
+        "explain ai",
+        "tell me about ai",
+        "what does ai do"
       ],
       "responses": [
-        "Artificial Intelligence enables computers to perform tasks that normally require human intelligence."
+        "AI (Artificial Intelligence) is a field where machines mimic human intelligence.",
+        "It allows computers to learn, reason, and make decisions.",
+        "AI is used in chatbots, self-driving cars, and recommendation systems."
+      ]
+    },
+
+    {
+      "tag": "coding_help",
+      "patterns": [
+        "help me code",
+        "fix my code",
+        "debug error",
+        "coding problem",
+        "programming help",
+        "i have an error"
+      ],
+      "responses": [
+        "Sure 👍 Paste your code or error and I’ll help you fix it.",
+        "I can help with Python, JavaScript, and React.",
+        "Tell me your issue and I’ll guide you step by step."
+      ]
+    },
+
+    {
+      "tag": "projects",
+      "patterns": [
+        "project ideas",
+        "what project should i build",
+        "final year project",
+        "beginner projects",
+        "mini project ideas"
+      ],
+      "responses": [
+        "You can build: Weather App, Chatbot, To-Do App, Expense Tracker.",
+        "Try React Chat App or Portfolio Website — great for interviews.",
+        "Start with CRUD projects like Notes App or Calculator."
+      ]
+    },
+
+    {
+      "tag": "weather",
+      "patterns": [
+        "weather today",
+        "is it raining",
+        "temperature",
+        "weather update"
+      ],
+      "responses": [
+        "I don't have live weather yet, but I can help you build it using APIs.",
+        "You can use OpenWeatherMap API for real-time weather data.",
+        "I can guide you step-by-step to build a weather app."
+      ]
+    },
+
+    {
+      "tag": "time",
+      "patterns": [
+        "what is the time",
+        "current time",
+        "tell me time",
+        "time now"
+      ],
+      "responses": [
+        "Let me check the current time for you ⏰",
+        "Here is the current time:"
+      ]
+    },
+
+    {
+      "tag": "thanks",
+      "patterns": [
+        "thanks",
+        "thank you",
+        "thank you so much",
+        "appreciate it"
+      ],
+      "responses": [
+        "You're welcome 😊",
+        "Happy to help!",
+        "Anytime 👍"
+      ]
+    },
+
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "bye",
+        "goodbye",
+        "see you",
+        "see you later"
+      ],
+      "responses": [
+        "Goodbye! 👋",
+        "See you soon!",
+        "Take care 😊"
+      ]
+    },
+
+    {
+      "tag": "default",
+      "patterns": [],
+      "responses": [
+        "I didn't fully understand that 🤔 Can you rephrase?",
+        "Try asking about coding, AI, or projects 🙂",
+        "I'm still learning — ask me something else."
       ]
     }
   ]

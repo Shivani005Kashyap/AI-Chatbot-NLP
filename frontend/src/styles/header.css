@@ -1,51 +1,70 @@
 .chat-header {
-  height: 75px;
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
+  height: 80px;
+  background: #ffffff;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 20px;
+  padding: 0 22px;
+
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 15px;
 }
 
 .robot-icon {
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
 
   border-radius: 50%;
 
-  background: #4f46e5;
+  background: linear-gradient(135deg, #6366f1, #4338ca);
   color: white;
 
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
-  font-size: 22px;
+  font-size: 24px;
+
+  box-shadow: 0 10px 20px rgba(99, 102, 241, .25);
 }
 
-.header-left h2 {
-  font-size: 20px;
-  color: #1f2937;
+.header-info h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
 }
 
-.header-left p {
-  font-size: 13px;
+.header-info p {
+  margin-top: 4px;
+  color: #22c55e;
+  font-size: 14px;
+}
+
+.clear-btn {
+  width: 45px;
+  height: 45px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #f3f4f6;
   color: #6b7280;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: .25s;
 }
 
-.status-dot {
-  width: 12px;
-  height: 12px;
-
-  background: #22c55e;
-  border-radius: 50%;
+.clear-btn:hover {
+  background: #ef4444;
+  color: white;
 }
